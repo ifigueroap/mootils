@@ -1,0 +1,7 @@
+#!/bin/bash
+
+NAME=$1
+
+echo "Creating mootils Submission folder structure"
+
+mkdir "$1" && cd "$1" && mkdir "Entries" && mkdir "Results" && touch extract && chmod +x extract && touch evaluate && chmod +x evaluate && touch MISSING_Planilla.csv 

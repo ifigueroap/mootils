@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo '"Identificador","Calificación"' > Evaluaciones.csv
+
+for file in ./Results/*; do
+    PARTICIPANT=`echo ${file##*/} | cut -d _ -f3`
+    GRADE=`./extract "$file"`
+    echo "\"Participante$PARTICIPANT\",$GRADE" >> Evaluaciones.csv
+done
+
+Rscript mergeGradesWithSheet.r
+
+
+
+
