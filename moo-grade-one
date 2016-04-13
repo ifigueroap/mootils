@@ -7,3 +7,4 @@ echo "Processing $entryDir"
 FILE=${entryDir//\//_}
 echo "$FILE"
 (cd "$entryDir" && ../../evaluate &> "../../Results/${FILE}.txt")
+
