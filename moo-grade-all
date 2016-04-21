@@ -3,3 +3,4 @@
 for d in Entries/*; do
     moo-grade-one "$d"
 done
+

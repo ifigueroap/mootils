@@ -2,3 +2,4 @@
 
 (cd Entries && find -name '*.zip' -exec sh -c 'unzip -d "${1%.*}" "$1"' _ {} \;)
 (cd Entries && find -name '*.zip' -print0 | xargs -0 rm -f {})
+
