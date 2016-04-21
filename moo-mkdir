@@ -4,4 +4,21 @@ NAME=$1
 
 echo "Creating mootils Submission folder structure"
 
-mkdir "$1" && cd "$1" && mkdir "Entries" && mkdir "Results" && touch extract && chmod +x extract && touch evaluate && chmod +x evaluate && touch MISSING_Planilla.csv 
+mkdir "$1" && cd "$1" && mkdir "Entries" && mkdir "Results" && touch extract && chmod +x extract && touch evaluate && chmod +x evaluate && touch MISSING_Planilla.csv
+
+cat >mergeGradesWithSheet.r <<EOF
+evaluationSheet <- read.csv("Planilla.csv", check.names = FALSE, stringsAsFactors = FALSE)
+evaluations <- read.csv("Evaluaciones.csv", stringsAsFactors = FALSE)
+
+filledEvaluations <- merge(x = evaluationSheet, y = evaluations, by = "Identificador", all.x = TRUE)
+filledEvaluations$"Calificación.x" <- NULL
+filledEvaluations$"Calificación" <- filledEvaluations$"Calificación.y"
+filledEvaluations$"Calificación.y" <- NULL
+filledEvaluations[is.na(filledEvaluations)] <- ""
+
+#Reordenar columnas para que "Calificación" quede en la posición correcta
+filledEvaluations <- filledEvaluations[c(1, 2, 3, 4, 5, 12, 6, 7, 8, 9, 10, 11)]
+
+write.csv(filledEvaluations, file="PlanillaFinal.csv", row.names = FALSE)
+EOF
+ 
