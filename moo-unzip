@@ -1,5 +1,19 @@
 #!/bin/bash
 
-(cd Entries && find -name '*.zip' -exec sh -c 'unzip -d "${1%.*}" "$1"' _ {} \;)
-(cd Entries && find -name '*.zip' -print0 | xargs -0 rm -f {})
+ENTRIES="$1"
+
+echo "Unzipping files in folder \"$ENTRIES\""
+echo "This will forcefully overwrite any previous unpackage of the files"
+read -p "Do you wish to continue (y/n)? " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+   (cd "$ENTRIES" && find . -name '*.zip' -exec sh -c 'unzip -o -d "${1%.*}" "$1"' _ {} \;)
+   read -p "Delete zip files (y/n)? " -n 1 -r
+   echo
+   if [[ $REPLY =~ ^[Yy]$ ]]
+   then
+      (cd "$ENTRIES" && find . -name '*.zip' -print0 | xargs -0 rm -f {})
+   fi
+fi
 
